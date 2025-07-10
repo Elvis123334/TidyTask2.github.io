@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TidyTasks - Organize Your Tasks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f9f9f9;
+            margin: 0; padding: 0;
+        }
+        .container {
+            max-width: 480px;
+            background: #fff;
+            margin: 40px auto;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #449d44;
+            margin-bottom: 1.5rem;
+        }
+        .task-inputs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+        .task-inputs input[type="text"] {
+            flex: 2;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        .task-inputs input[type="button"] {
+            flex: 1;
+            background: #449d44;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .task-inputs input[type="button"]:hover {
+            background: #357935;
+        }
+        ul#task-list {
+            list-style: none;
+            padding: 0;
+        }
+        ul#task-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f1f1f1;
+            margin-bottom: 0.7rem;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        ul#task-list li.completed .task-text {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+        .task-text {
+            flex: 1;
+            cursor: pointer;
+        }
+        .delete-btn {
+            margin-left: 1rem;
+            background: #e74c3c;
+            border: none;
+            color: #fff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TidyTasks</h1>
+        <div class="task-inputs">
+            <input id="task-input" type="text" placeholder="Write your task here...">
+            <input id="add-btn" type="button" value="Add">
+        </div>
+        <ul id="task-list"></ul>
+    </div>
+    <script>
+        const taskInput = document.getElementById('task-input');
+        const addBtn = document.getElementById('add-btn');
+        const taskList = document.getElementById('task-list');
+
+        // Add task function
+        function addTask() {
+            const taskText = taskInput.value.trim();
+            if (taskText === '') {
+                alert('Please enter a task!');
+                return;
+            }
+
+            const li = document.createElement('li');
+
+            // Task text span
+            const span = document.createElement('span');
+            span.className = 'task-text';
+            span.textContent = taskText;
+            // Mark as completed on click
+            span.addEventListener('click', function() {
+                li.classList.toggle('completed');
+            });
+
+            // Delete button
+            const delBtn = document.createElement('button');
+            delBtn.className = 'delete-btn';
+            delBtn.textContent = 'Delete';
+            delBtn.addEventListener('click', function() {
+                taskList.removeChild(li);
+            });
+
+            li.appendChild(span);
+            li.appendChild(delBtn);
+            taskList.appendChild(li);
+            taskInput.value = '';
+            taskInput.focus();
+        }
+
+        // Add with button
+        addBtn.addEventListener('click', addTask);
+
+        // Add with Enter key in the input
+        taskInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                addTask();
+            }
+        });
+    </script>
+</body>
+</html>
